@@ -4,6 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
+import { CurrencyService } from '../service/currency.service';
 
 
 
@@ -21,13 +22,20 @@ export class CoinListComponent implements OnInit{
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private coinService: CoinService,
-    private router : Router,) {
+    private router : Router,
+    private currencyService : CurrencyService) {
 
   }
 
   ngOnInit(): void {
     this.getAllData();
     this.getBannerData();
+    this.currencyService.getCurrency()
+    .subscribe(val=>{
+      this.currency = val;
+      this.getAllData();
+      this.getBannerData();
+    })
   }
 
 
